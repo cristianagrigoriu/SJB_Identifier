@@ -1,0 +1,215 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://helloapi123.appspot.com/_ah/api",
+  "name" : "quoteapi",
+  "version" : "v1",
+  "description" : "An API to manage famous quotes",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://helloapi123.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "quoteapi.getQuote" : {
+      "path" : "quote/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.listByAuthor" : {
+      "path" : "quotecollection/{author}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuotesByAuthor",
+      "request" : {
+        "parameters" : {
+          "author" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.remove" : {
+      "path" : "quote/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.removeQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "quoteapi.update" : {
+      "path" : "quote",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.updateQuote",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.list" : {
+      "path" : "quotecollection",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuotes",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.add" : {
+      "path" : "addQuote/{id}/{author}/{message}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.QuoteServiceAPI.addQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          },
+          "author" : {
+            "type" : "string",
+            "required" : true
+          },
+          "message" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Quote" : {
+        "id" : "Quote",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "author" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "QuoteCollection" : {
+        "id" : "QuoteCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Quote"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuote" : {
+        "response" : {
+          "$ref" : "Quote"
+        }
+      },
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuotesByAuthor" : {
+        "response" : {
+          "$ref" : "QuoteCollection"
+        }
+      },
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.removeQuote" : {
+      },
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.updateQuote" : {
+        "request" : {
+          "$ref" : "Quote"
+        },
+        "response" : {
+          "$ref" : "Quote"
+        }
+      },
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.getQuotes" : {
+        "response" : {
+          "$ref" : "QuoteCollection"
+        }
+      },
+      "com.cg.sjb_identifier.service.QuoteServiceAPI.addQuote" : {
+        "response" : {
+          "$ref" : "Quote"
+        }
+      }
+    }
+  }
+}
