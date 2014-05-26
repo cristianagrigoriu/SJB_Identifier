@@ -15,22 +15,25 @@ public class IdentifierAPI {
 	public static List<Identifier> ids = new ArrayList<Identifier>();
 
 	@ApiMethod(name="add")
-	public Identifier addId(@Named("id") Integer id) throws NotFoundException {
+	public Identifier addId(@Named("id") String id, @Named("name") String name) throws NotFoundException {
 		//Check for already exists
-		int index = ids.indexOf(new Identifier(id));
+		int index = ids.indexOf(new Identifier(id, name));
 		if (index != -1) throw new NotFoundException("ID Record already exists");
 
-		Identifier q = new Identifier(id);
+		Identifier q = new Identifier(id, name);
 		ids.add(q);
 		return q;
 	}
 
 	@ApiMethod(name="remove")
-	public void removeId(@Named("id") Integer id) throws NotFoundException {
-		int index = ids.indexOf(new Identifier(id));
-		if (index == -1)
-			throw new NotFoundException("ID Record does not exist");
-		ids.remove(index);
+	public void removeId(@Named("id") String id) throws NotFoundException {
+		for (Identifier i: ids) {
+			if (id.equals(i.getUniqueId())) {
+				ids.remove(i);
+				return;
+			}
+		}
+		throw new NotFoundException("ID Record does not exist");
 	}
 
 	@ApiMethod(name="list")
@@ -39,10 +42,11 @@ public class IdentifierAPI {
 	}
 
 	@ApiMethod(name="getID")
-	public Identifier getQuote(@Named("id") Integer id) throws NotFoundException {
-		int index = ids.indexOf(new Identifier(id));
-		if (index == -1)
-			throw new NotFoundException("Quote Record does not exist");
-		return ids.get(index);
+	public Identifier getId(@Named("id") String id) throws NotFoundException {
+		for (Identifier i: ids) {
+			if (id.equals(i.getUniqueId()))
+				return i;
+		}
+		throw new NotFoundException("ID Record does not exist");
 	}
 }

@@ -1,13 +1,13 @@
 {
   "extends" : "thirdParty.api",
   "abstract" : false,
-  "root" : "https://helloapi123.appspot.com/_ah/api",
+  "root" : "https://awesometreasurehunt.appspot.com/_ah/api",
   "name" : "identifierapi",
   "version" : "v1",
   "description" : "An API to manage the ids for the Treasure Hunts",
   "defaultVersion" : false,
   "adapter" : {
-    "bns" : "https://helloapi123.appspot.com/_ah/spi",
+    "bns" : "https://awesometreasurehunt.appspot.com/_ah/spi",
     "deadline" : 65.0,
     "type" : "lily"
   },
@@ -25,27 +25,6 @@
     "maxAge" : 0
   },
   "methods" : {
-    "identifierapi.getID" : {
-      "path" : "identifier/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getQuote",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int32",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "identifierapi.remove" : {
       "path" : "id/{id}",
       "httpMethod" : "DELETE",
@@ -57,7 +36,7 @@
       "request" : {
         "parameters" : {
           "id" : {
-            "type" : "int32",
+            "type" : "string",
             "required" : true
           }
         },
@@ -65,6 +44,27 @@
       },
       "response" : {
         "body" : "empty"
+      }
+    },
+    "identifierapi.getID" : {
+      "path" : "identifier/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getId",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
       }
     },
     "identifierapi.list" : {
@@ -83,7 +83,7 @@
       }
     },
     "identifierapi.add" : {
-      "path" : "addId/{id}",
+      "path" : "addId/{id}/{name}",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
@@ -93,7 +93,11 @@
       "request" : {
         "parameters" : {
           "id" : {
-            "type" : "int32",
+            "type" : "string",
+            "required" : true
+          },
+          "name" : {
+            "type" : "string",
             "required" : true
           }
         },
@@ -110,8 +114,11 @@
         "id" : "Identifier",
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "integer"
+          "uniqueId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
           }
         }
       },
@@ -129,12 +136,12 @@
       }
     },
     "methods" : {
-      "com.cg.sjb_identifier.service.IdentifierAPI.getQuote" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.removeId" : {
+      },
+      "com.cg.sjb_identifier.service.IdentifierAPI.getId" : {
         "response" : {
           "$ref" : "Identifier"
         }
-      },
-      "com.cg.sjb_identifier.service.IdentifierAPI.removeId" : {
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.getQuotes" : {
         "response" : {

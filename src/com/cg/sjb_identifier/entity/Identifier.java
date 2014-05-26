@@ -1,17 +1,28 @@
 package com.cg.sjb_identifier.entity;
 
 public class Identifier {
-	Integer ID;
+	String uniqueId;
+	String name;
 	
 	public Identifier() {
 	}
-
-	public Identifier(Integer id) {
+	
+	public Identifier(String id) {
 		super();
-		this.ID = id;
+		this.uniqueId = id;
+	}
+
+	public Identifier(String id, String name) {
+		super();
+		this.uniqueId = id;
+		this.name = name;
 	}
 	
-	public Integer getID() {
-		return this.ID;
+	public String getUniqueId() {
+		return this.uniqueId;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 }
