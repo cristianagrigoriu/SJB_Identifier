@@ -16,10 +16,12 @@ public class IdentifierAPI {
 
 	@ApiMethod(name="add")
 	public Identifier addId(@Named("id") String id, @Named("name") String name) throws NotFoundException {
-		//Check for already exists
-		int index = ids.indexOf(new Identifier(id, name));
-		if (index != -1) throw new NotFoundException("ID Record already exists");
-
+		//Check if already exists
+		for (Identifier i: ids) {
+			if (id.equals(i.getUniqueId())) {
+				throw new NotFoundException("ID Record already exists");
+			}
+		}
 		Identifier q = new Identifier(id, name);
 		ids.add(q);
 		return q;
