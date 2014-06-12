@@ -2,11 +2,17 @@ package com.cg.sjb_identifier.entity;
 
 import java.util.ArrayList;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class Clue {
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    int id;
+	
 	/*more instructions for different difficulty levels: (easy), (medium), (hard)*/
 	@Persistent
 	ArrayList<String> instructions;

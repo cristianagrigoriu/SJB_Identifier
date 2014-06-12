@@ -31,6 +31,7 @@ public class TreasureHunt {
 		super();
 		this.uniqueId = id;
 		this.name = name;
+		this.clues = new ArrayList<Clue>();
 	}
 	
 	public String getUniqueId() {

@@ -18,17 +18,20 @@ public class Identifier {
 	private ArrayList<UserTreasureHunt> treasureHunts;
 	
 	public Identifier() {
+		treasureHunts = new ArrayList<UserTreasureHunt>();
 	}
 	
 	public Identifier(String id) {
 		super();
 		this.uniqueId = id;
+		treasureHunts = new ArrayList<UserTreasureHunt>();
 	}
 
 	public Identifier(String id, String name) {
 		super();
 		this.uniqueId = id;
 		this.name = name;
+		treasureHunts = new ArrayList<UserTreasureHunt>();
 	}
 	
 	public String getUniqueId() {
@@ -37,5 +40,9 @@ public class Identifier {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public void setTreasureHunts(ArrayList<UserTreasureHunt> ths) {
+		this.treasureHunts = ths;
 	}
 }
