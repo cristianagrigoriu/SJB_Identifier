@@ -8,24 +8,26 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Identifier {
+public class TreasureHunt {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private String uniqueId;
+	String uniqueId;
 	@Persistent
-	private String name;
+	String name;
 	@Persistent
-	private ArrayList<UserTreasureHunt> treasureHunts;
+	ArrayList<Clue> clues;
 	
-	public Identifier() {
+	public TreasureHunt() {
+		this.clues = new ArrayList<Clue>();
 	}
 	
-	public Identifier(String id) {
+	public TreasureHunt(String id) {
 		super();
 		this.uniqueId = id;
+		this.clues = new ArrayList<Clue>();
 	}
 
-	public Identifier(String id, String name) {
+	public TreasureHunt(String id, String name) {
 		super();
 		this.uniqueId = id;
 		this.name = name;
@@ -37,5 +39,17 @@ public class Identifier {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public ArrayList<Clue> getAllClues() {
+		return this.clues;
+	}
+	
+	public TreasureHunt addClueTo(String id, Clue newClue) {
+		if (this.clues == null) {
+			this.clues = new ArrayList<Clue>();
+		}
+		this.clues.add(newClue);
+		return this;
 	}
 }

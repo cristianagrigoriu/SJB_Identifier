@@ -3,6 +3,8 @@ package com.cg.sjb_identifier.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
@@ -13,6 +15,8 @@ import com.cg.sjb_identifier.entity.Identifier;
 public class IdentifierAPI {
 
 	public static List<Identifier> ids = new ArrayList<Identifier>();
+	//private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	PersistenceManager pm = PMF.get().getPersistenceManager();
 
 	@ApiMethod(name="add")
 	public Identifier addId(@Named("id") String id, @Named("name") String name) throws NotFoundException {
@@ -24,6 +28,26 @@ public class IdentifierAPI {
 		}
 		Identifier q = new Identifier(id, name);
 		ids.add(q);
+		
+		try {
+            pm.makePersistent(q);
+        } finally {
+            pm.close();
+        }
+		
+		/*Query qq = new Query("Identifier");		
+		PreparedQuery pq = datastore.prepare(qq);
+		
+		for (Entity result : pq.asIterable()) {
+		  if (id.equals((String) result.getProperty("id"))) {
+			  Entity newIdentifier = new Entity("Identifier");
+			  newIdentifier.setProperty("id", id);
+			  newIdentifier.setProperty("name", name);
+				
+			  datastore.put(newIdentifier);  
+		  }		
+		}*/
+		
 		return q;
 	}
 
@@ -39,7 +63,17 @@ public class IdentifierAPI {
 	}
 
 	@ApiMethod(name="list")
-	public List<Identifier> getQuotes() {
+	public List<Identifier> getQuotes() {	
+		/*Query q = new Query("Identifier");		
+		PreparedQuery pq = datastore.prepare(q);
+		
+		for (Entity result : pq.asIterable()) {
+		  String id = (String) result.getProperty("id");
+		  String name = (String) result.getProperty("name");
+
+		  System.out.println(id + " " + name);
+		}*/
+		
 		return ids;
 	}
 
