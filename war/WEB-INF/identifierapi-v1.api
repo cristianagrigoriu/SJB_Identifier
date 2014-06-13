@@ -157,7 +157,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getQuotes",
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getIds",
       "request" : {
         "body" : "empty"
       },
@@ -183,7 +183,7 @@
         "body" : "empty"
       },
       "response" : {
-        "body" : "empty"
+        "body" : "autoTemplate(backendResponse)"
       }
     },
     "identifierapi.listTreasureHunts" : {
@@ -407,12 +407,15 @@
           "$ref" : "TreasureHunt"
         }
       },
-      "com.cg.sjb_identifier.service.IdentifierAPI.getQuotes" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.getIds" : {
         "response" : {
           "$ref" : "IdentifierCollection"
         }
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.setTreasureHuntsForId" : {
+        "response" : {
+          "$ref" : "Identifier"
+        }
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts" : {
         "response" : {

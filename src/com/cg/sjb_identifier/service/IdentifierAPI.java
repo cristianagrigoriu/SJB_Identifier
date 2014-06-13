@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-import javax.persistence.EntityExistsException;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -57,7 +56,7 @@ public class IdentifierAPI {
 	}
 
 	@ApiMethod(name="list")
-	public List<Identifier> getQuotes() throws NotFoundException {	
+	public List<Identifier> getIds() throws NotFoundException {	
 		List<Identifier> results = getAllIdsFromDatastore();
 		
 		if (!results.isEmpty()) {
@@ -156,15 +155,23 @@ public class IdentifierAPI {
 		return null;
 	}
 	
+	/*adds just the treasure hunts the user does not have already*/
 	@ApiMethod(name="setTreasureHuntsForId")
-	public void setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
+	public Identifier setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
 		Identifier found = getId(id);
 		List<Key> keyTHs = new ArrayList<Key>();
-		for (TreasureHunt th : resultsTH)
-			keyTHs.add(th.getKey());
 		
-		found.setTreasureHunts(keyTHs);
+		if (found != null) {
+			for (TreasureHunt th : resultsTH) {
+				if (!found.hasTreasureHunt(th.getKey()))
+					keyTHs.add(th.getKey());
+			}
+			
+			found.setTreasureHunts(keyTHs);
+		}
+			
+		return found;
 	}
 	
 	@ApiMethod(name="getTreasureHuntsForId")
@@ -200,6 +207,8 @@ public class IdentifierAPI {
 		found.addClueTo(id, newClue);
 		return found;
 	}
+	
+	
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
 		javax.jdo.Query q = pm.newQuery(TreasureHunt.class);

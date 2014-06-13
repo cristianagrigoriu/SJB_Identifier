@@ -77,4 +77,11 @@ public class Identifier {
 	public void addTreasureHunt(Key th) {
 		this.treasureHunts.add(th);
 	}
+	
+	public boolean hasTreasureHunt(Key k) {
+		for (Key kk : this.treasureHunts)
+			if (kk.equals(k))
+				return true;
+		return false;
+	}
 }
