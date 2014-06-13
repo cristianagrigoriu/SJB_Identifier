@@ -2,16 +2,20 @@ package com.cg.sjb_identifier.entity;
 
 import java.util.ArrayList;
 
+import javax.jdo.annotations.EmbeddedOnly;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable
+@EmbeddedOnly
 public class Clue {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    int id;
+    Key key;
 	
 	/*more instructions for different difficulty levels: (easy), (medium), (hard)*/
 	@Persistent

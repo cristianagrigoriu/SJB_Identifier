@@ -14,6 +14,8 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.cg.sjb_identifier.entity.Identifier;
+import com.cg.sjb_identifier.entity.Clue;
+import com.cg.sjb_identifier.entity.TreasureHunt;
 
 @Api(name="identifierapi",version="v1", description="An API to manage the ids for the Treasure Hunts")
 public class IdentifierAPI {
@@ -177,6 +179,26 @@ public class IdentifierAPI {
 		}
 			
 		return ths;
+	}
+	
+	@ApiMethod(name="addClue")
+	public TreasureHunt addClue(@Named("id") String id, 
+			@Named("instruction1") String instructionMedium, @Named("instruction2") String instructionHard,
+			@Named("coordinateLat") Double coordLat, @Named("coordinateLong") Double coordLong) throws NotFoundException {
+		
+		TreasureHunt found = getTreasureHuntById(id);
+		
+		ArrayList<String> instructions = new ArrayList<String>();
+		instructions.add(instructionMedium); 
+		instructions.add(instructionHard);
+				
+		ArrayList<Double> coordinates = new ArrayList<Double>();
+		coordinates.add(coordLat); 
+		coordinates.add(coordLong);
+				
+		Clue newClue = new Clue(instructions, coordinates);
+		found.addClueTo(id, newClue);
+		return found;
 	}
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {

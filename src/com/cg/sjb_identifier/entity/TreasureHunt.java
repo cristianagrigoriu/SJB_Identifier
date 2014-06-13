@@ -2,6 +2,7 @@ package com.cg.sjb_identifier.entity;
 
 import java.util.ArrayList;
 
+import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -10,11 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class TreasureHunt {
-	/*@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	String uniqueId;*/
-	
+public class TreasureHunt {	
 	@Persistent
 	String uniqueId;
 	
@@ -24,8 +21,11 @@ public class TreasureHunt {
 	
 	@Persistent
 	String name;
+	
 	@Persistent
 	ArrayList<Clue> clues;
+	
+	@Persistent
 	boolean isCompleted;
 	
 	public TreasureHunt() {
