@@ -7,24 +7,37 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable
 public class TreasureHunt {
+	/*@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	String uniqueId;*/
+	
+	@Persistent
+	String uniqueId;
+	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	String uniqueId;
+    private Key key;
+	
 	@Persistent
 	String name;
 	@Persistent
 	ArrayList<Clue> clues;
+	boolean isCompleted;
 	
 	public TreasureHunt() {
 		this.clues = new ArrayList<Clue>();
+		isCompleted = false;
 	}
 	
 	public TreasureHunt(String id) {
 		super();
 		this.uniqueId = id;
 		this.clues = new ArrayList<Clue>();
+		isCompleted = false;
 	}
 
 	public TreasureHunt(String id, String name) {
@@ -32,6 +45,7 @@ public class TreasureHunt {
 		this.uniqueId = id;
 		this.name = name;
 		this.clues = new ArrayList<Clue>();
+		isCompleted = false;
 	}
 	
 	public String getUniqueId() {
@@ -40,6 +54,14 @@ public class TreasureHunt {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public Key getKey() {
+		return this.key;
+	}
+	
+	public void setKey(Key newKey) {
+		this.key = newKey;
 	}
 	
 	public ArrayList<Clue> getAllClues() {

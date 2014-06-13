@@ -12,6 +12,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.cg.sjb_identifier.entity.Identifier;
 
 @Api(name="identifierapi",version="v1", description="An API to manage the ids for the Treasure Hunts")
@@ -101,6 +102,8 @@ public class IdentifierAPI {
 		
 		/*add the new treasure hunt*/
 		pm.makePersistent(newTH);
+		
+		//addTreasureHuntToAllUsers(newTH);
 					
 		return newTH;
 	}
@@ -155,14 +158,25 @@ public class IdentifierAPI {
 	public void setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
 		Identifier found = getId(id);
-		ArrayList<UserTreasureHunt> uths = new ArrayList<UserTreasureHunt>();
+		List<Key> keyTHs = new ArrayList<Key>();
+		for (TreasureHunt th : resultsTH)
+			keyTHs.add(th.getKey());
 		
-		for (TreasureHunt t : resultsTH){
-			UserTreasureHunt uth = new UserTreasureHunt(t);
-			uths.add(uth);
+		found.setTreasureHunts(keyTHs);
+	}
+	
+	@ApiMethod(name="getTreasureHuntsForId")
+	public List<TreasureHunt> getTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
+		Identifier found = getId(id);
+		List<Key> resultsTH = found.getTreasureHunts();
+		
+		List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
+		for (Key keyTH : resultsTH) {
+			TreasureHunt t = pm.getObjectById(TreasureHunt.class, keyTH);
+			ths.add(t);
 		}
 			
-		found.setTreasureHunts(uths);
+		return ths;
 	}
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
@@ -177,6 +191,14 @@ public class IdentifierAPI {
 		  q.closeAll();
 		}
 		return results;
+	}
+	
+	private void addTreasureHuntToAllUsers(TreasureHunt newTH) {
+		List<Identifier> resultsIds = getAllIdsFromDatastore();
+		
+		for (Identifier i : resultsIds) {
+			i.addTreasureHunt(newTH.getKey());
+		}
 	}
 	
 	private List<Identifier> getAllIdsFromDatastore() {
