@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"0NZZm4UuLZgEQBhMTwnFS1XIMrM/cOVR0xPkIFl9TOa2D7-OoF64MkU\"",
+ "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/cpE2_LmQL6tFcb9dtWNfNEYj2aY\"",
  "discoveryVersion": "v1",
  "id": "identifierapi:v1",
  "name": "identifierapi",
@@ -71,12 +71,40 @@
   }
  },
  "schemas": {
+  "Clue": {
+   "id": "Clue",
+   "type": "object",
+   "properties": {
+    "coordinates": {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "format": "double"
+     }
+    },
+    "instructions": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
   "Identifier": {
    "id": "Identifier",
    "type": "object",
    "properties": {
+    "key": {
+     "$ref": "Key"
+    },
     "name": {
      "type": "string"
+    },
+    "treasureHunts": {
+     "type": "array",
+     "items": {
+      "$ref": "Key"
+     }
     },
     "uniqueId": {
      "type": "string"
@@ -94,11 +122,119 @@
      }
     }
    }
+  },
+  "Key": {
+   "id": "Key",
+   "type": "object",
+   "properties": {
+    "appId": {
+     "type": "string"
+    },
+    "complete": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "namespace": {
+     "type": "string"
+    },
+    "parent": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "TreasureHunt": {
+   "id": "TreasureHunt",
+   "type": "object",
+   "properties": {
+    "allClues": {
+     "type": "array",
+     "items": {
+      "$ref": "Clue"
+     }
+    },
+    "key": {
+     "$ref": "Key"
+    },
+    "name": {
+     "type": "string"
+    },
+    "uniqueId": {
+     "type": "string"
+    }
+   }
+  },
+  "TreasureHuntCollection": {
+   "id": "TreasureHuntCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "TreasureHunt"
+     }
+    }
+   }
   }
  },
  "methods": {
-  "add": {
-   "id": "identifierapi.add",
+  "addClue": {
+   "id": "identifierapi.addClue",
+   "path": "addClue/{id}/{instruction1}/{instruction2}/{coordinateLat}/{coordinateLong}",
+   "httpMethod": "POST",
+   "parameters": {
+    "coordinateLat": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
+    "coordinateLong": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "instruction1": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "instruction2": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "instruction1",
+    "instruction2",
+    "coordinateLat",
+    "coordinateLong"
+   ],
+   "response": {
+    "$ref": "TreasureHunt"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "addIdentifier": {
+   "id": "identifierapi.addIdentifier",
    "path": "addId/{id}/{name}",
    "httpMethod": "POST",
    "parameters": {
@@ -119,6 +255,33 @@
    ],
    "response": {
     "$ref": "Identifier"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "addTreasureHunt": {
+   "id": "identifierapi.addTreasureHunt",
+   "path": "addTreasureHunt/{id}/{name}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "name": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "name"
+   ],
+   "response": {
+    "$ref": "TreasureHunt"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
@@ -145,6 +308,48 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
+  "getTreasureHuntByID": {
+   "id": "identifierapi.getTreasureHuntByID",
+   "path": "treasurehunt/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "TreasureHunt"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "getTreasureHuntsForId": {
+   "id": "identifierapi.getTreasureHuntsForId",
+   "path": "treasurehuntcollection/{id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "TreasureHuntCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "list": {
    "id": "identifierapi.list",
    "path": "identifiercollection",
@@ -156,8 +361,19 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "remove": {
-   "id": "identifierapi.remove",
+  "listTreasureHunts": {
+   "id": "identifierapi.listTreasureHunts",
+   "path": "treasurehuntcollection",
+   "httpMethod": "GET",
+   "response": {
+    "$ref": "TreasureHuntCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "removeIdentifier": {
+   "id": "identifierapi.removeIdentifier",
    "path": "id/{id}",
    "httpMethod": "DELETE",
    "parameters": {
@@ -170,6 +386,45 @@
    "parameterOrder": [
     "id"
    ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "removeTreasureHunt": {
+   "id": "identifierapi.removeTreasureHunt",
+   "path": "treasurehunt/{id}",
+   "httpMethod": "DELETE",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "setTreasureHuntsForId": {
+   "id": "identifierapi.setTreasureHuntsForId",
+   "path": "setTreasureHuntsForId/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "Identifier"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

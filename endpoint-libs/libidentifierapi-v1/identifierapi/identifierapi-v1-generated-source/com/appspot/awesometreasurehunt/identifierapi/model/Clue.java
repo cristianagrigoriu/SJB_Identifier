@@ -19,7 +19,7 @@
 package com.appspot.awesometreasurehunt.identifierapi.model;
 
 /**
- * Model definition for IdentifierCollection.
+ * Model definition for Clue.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the identifierapi. For a detailed explanation see:
@@ -29,43 +29,58 @@ package com.appspot.awesometreasurehunt.identifierapi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class IdentifierCollection extends com.google.api.client.json.GenericJson {
+public final class Clue extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Identifier> items;
+  private java.util.List<java.lang.Double> coordinates;
 
-  static {
-    // hack to force ProGuard to consider Identifier used, since otherwise it would be stripped out
-    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
-    com.google.api.client.util.Data.nullOf(Identifier.class);
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.util.List<java.lang.String> instructions;
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.util.List<java.lang.Double> getCoordinates() {
+    return coordinates;
+  }
+
+  /**
+   * @param coordinates coordinates or {@code null} for none
+   */
+  public Clue setCoordinates(java.util.List<java.lang.Double> coordinates) {
+    this.coordinates = coordinates;
+    return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Identifier> getItems() {
-    return items;
+  public java.util.List<java.lang.String> getInstructions() {
+    return instructions;
   }
 
   /**
-   * @param items items or {@code null} for none
+   * @param instructions instructions or {@code null} for none
    */
-  public IdentifierCollection setItems(java.util.List<Identifier> items) {
-    this.items = items;
+  public Clue setInstructions(java.util.List<java.lang.String> instructions) {
+    this.instructions = instructions;
     return this;
   }
 
   @Override
-  public IdentifierCollection set(String fieldName, Object value) {
-    return (IdentifierCollection) super.set(fieldName, value);
+  public Clue set(String fieldName, Object value) {
+    return (Clue) super.set(fieldName, value);
   }
 
   @Override
-  public IdentifierCollection clone() {
-    return (IdentifierCollection) super.clone();
+  public Clue clone() {
+    return (Clue) super.clone();
   }
 
 }

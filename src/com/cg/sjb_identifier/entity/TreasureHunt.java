@@ -15,6 +15,7 @@ public class TreasureHunt {
 	@Persistent
 	String uniqueId;
 	
+	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
@@ -65,6 +66,9 @@ public class TreasureHunt {
 	}
 	
 	public ArrayList<Clue> getAllClues() {
+		System.out.println(this.clues.size());
+		if (this.clues == null)
+			this.clues = new ArrayList<Clue>();
 		return this.clues;
 	}
 	
@@ -74,5 +78,13 @@ public class TreasureHunt {
 		}
 		this.clues.add(newClue);
 		return this;
+	}
+	
+	public void setCluesNull() {
+		this.clues = null;
+	}
+	
+	public void setCompleted() {
+		this.isCompleted = true;
 	}
 }

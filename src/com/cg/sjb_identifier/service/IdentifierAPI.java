@@ -130,6 +130,8 @@ public class IdentifierAPI {
 		if (!results.isEmpty()) {
 			for (TreasureHunt t : results) {
 		    	System.out.println(t.getUniqueId() + " " + t.getName());
+		    	System.out.println(t.getAllClues());
+		    	System.out.println(t.getKey());
 		    }
 		} else {
 			throw new NotFoundException("ID Record does not exist");
@@ -213,7 +215,7 @@ public class IdentifierAPI {
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
 		javax.jdo.Query q = pm.newQuery(TreasureHunt.class);
 
-		List<TreasureHunt> results;
+		List<TreasureHunt> results = new ArrayList<TreasureHunt>();
 		
 		try {
 		  results = (List<TreasureHunt>) q.execute();

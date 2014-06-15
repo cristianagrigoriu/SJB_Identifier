@@ -19,7 +19,7 @@
 package com.appspot.awesometreasurehunt.identifierapi.model;
 
 /**
- * Model definition for IdentifierCollection.
+ * Model definition for TreasureHuntCollection.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the identifierapi. For a detailed explanation see:
@@ -29,43 +29,37 @@ package com.appspot.awesometreasurehunt.identifierapi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class IdentifierCollection extends com.google.api.client.json.GenericJson {
+public final class TreasureHuntCollection extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Identifier> items;
-
-  static {
-    // hack to force ProGuard to consider Identifier used, since otherwise it would be stripped out
-    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
-    com.google.api.client.util.Data.nullOf(Identifier.class);
-  }
+  private java.util.List<TreasureHunt> items;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Identifier> getItems() {
+  public java.util.List<TreasureHunt> getItems() {
     return items;
   }
 
   /**
    * @param items items or {@code null} for none
    */
-  public IdentifierCollection setItems(java.util.List<Identifier> items) {
+  public TreasureHuntCollection setItems(java.util.List<TreasureHunt> items) {
     this.items = items;
     return this;
   }
 
   @Override
-  public IdentifierCollection set(String fieldName, Object value) {
-    return (IdentifierCollection) super.set(fieldName, value);
+  public TreasureHuntCollection set(String fieldName, Object value) {
+    return (TreasureHuntCollection) super.set(fieldName, value);
   }
 
   @Override
-  public IdentifierCollection clone() {
-    return (IdentifierCollection) super.clone();
+  public TreasureHuntCollection clone() {
+    return (TreasureHuntCollection) super.clone();
   }
 
 }
