@@ -1,6 +1,7 @@
 package com.cg.sjb_identifier.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -15,7 +16,6 @@ public class TreasureHunt {
 	@Persistent
 	String uniqueId;
 	
-	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
@@ -24,7 +24,7 @@ public class TreasureHunt {
 	String name;
 	
 	@Persistent
-	ArrayList<Clue> clues;
+	List<Clue> clues;
 	
 	@Persistent
 	boolean isCompleted;
@@ -65,14 +65,16 @@ public class TreasureHunt {
 		this.key = newKey;
 	}
 	
-	public ArrayList<Clue> getAllClues() {
-		System.out.println(this.clues.size());
-		if (this.clues == null)
+	public List<Clue> getAllClues() {
+		//this.clues = new ArrayList<Clue>();
+		//System.out.println(this.clues.size());
+		if (this.clues.size() == 0)
+		//if (this.clues == null)
 			this.clues = new ArrayList<Clue>();
 		return this.clues;
 	}
 	
-	public TreasureHunt addClueTo(String id, Clue newClue) {
+	public TreasureHunt addClueTo(Clue newClue) {
 		if (this.clues == null) {
 			this.clues = new ArrayList<Clue>();
 		}
@@ -82,6 +84,10 @@ public class TreasureHunt {
 	
 	public void setCluesNull() {
 		this.clues = null;
+	}
+	
+	public boolean isTHCompleted() {
+		  return this.isCompleted;
 	}
 	
 	public void setCompleted() {

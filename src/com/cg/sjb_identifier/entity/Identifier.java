@@ -13,10 +13,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable
 public class Identifier {
-	/*@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private String uniqueId;*/
-	
 	@Persistent
 	private String uniqueId;
 	
@@ -26,6 +22,7 @@ public class Identifier {
 	
 	@Persistent
 	private String name;
+	
 	@Persistent
 	private List<Key> treasureHunts;
 	
@@ -76,6 +73,13 @@ public class Identifier {
 	
 	public void addTreasureHunt(Key th) {
 		this.treasureHunts.add(th);
+	}
+	
+	public void deleteTreasureHunt(Key key) {
+		if (!this.treasureHunts.isEmpty())
+			for (Key k : this.treasureHunts)
+				if (k.equals(key))
+					this.treasureHunts.remove(k);
 	}
 	
 	public boolean hasTreasureHunt(Key k) {

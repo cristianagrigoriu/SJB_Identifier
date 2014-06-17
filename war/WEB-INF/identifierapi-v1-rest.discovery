@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/cpE2_LmQL6tFcb9dtWNfNEYj2aY\"",
+ "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/0xyX-DIaIwYIOl9IQ3qLOCkZrIA\"",
  "discoveryVersion": "v1",
  "id": "identifierapi:v1",
  "name": "identifierapi",
@@ -160,6 +160,9 @@
      "items": {
       "$ref": "Clue"
      }
+    },
+    "completed": {
+     "type": "boolean"
     },
     "key": {
      "$ref": "Key"
