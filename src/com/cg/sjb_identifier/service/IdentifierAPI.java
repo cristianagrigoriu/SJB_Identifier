@@ -114,8 +114,6 @@ public class IdentifierAPI {
 	
 	@ApiMethod(name="addTreasureHunt")
 	public TreasureHunt addTreasureHunt(@Named("id") String id, @Named("name") String name) throws NotFoundException {
-		pm = PMF.get().getPersistenceManager();
-		
 		/*check if already exists*/
 		TreasureHunt newTH = new TreasureHunt(id, name);
 				
@@ -127,6 +125,8 @@ public class IdentifierAPI {
 					return newTH;
 				}
 		} 
+		
+		pm = PMF.get().getPersistenceManager();
 		
 		/*add the new treasure hunt*/
 		try {
@@ -176,7 +176,7 @@ public class IdentifierAPI {
 			if (!results.isEmpty()) {
 				for (TreasureHunt t : results) {
 			    	System.out.println(t.getUniqueId() + " " + t.getName());
-			    	System.out.println(t.getAllClues().size());
+			    	//System.out.println(t.getAllClues().size());
 			    	System.out.println(t.getKey());
 			    }
 			} else {
@@ -192,15 +192,15 @@ public class IdentifierAPI {
 
 	@ApiMethod(name="getTreasureHuntByID")
 	public TreasureHunt getTreasureHuntById(@Named("id") String id) throws NotFoundException {
-		pm = PMF.get().getPersistenceManager();
+		//pm = PMF.get().getPersistenceManager();
 		
 		try {
 			List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
 			
 			if (!results.isEmpty()) {
 				for (TreasureHunt t : results) {
-					if (t.getUniqueId().equals(id))
-			    		return t;
+					if (t.getUniqueId().equals(id)) {
+			    		return t; }
 					}
 			} else {
 				throw new NotFoundException("ID Record does not exist");
@@ -208,7 +208,7 @@ public class IdentifierAPI {
 			return null;
 		}
 		finally {
-			pm.close();
+			//pm.close();
 		}
 	}
 	
@@ -282,12 +282,14 @@ public class IdentifierAPI {
 		Clue newClue = new Clue(instructions, coordinates);
 		found.addClueTo(newClue);
 		
-		pm = PMF.get().getPersistenceManager();
+		//pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistent(found);
+			TreasureHunt start = getTreasureHuntById(id);
+			System.out.println(start.getAllClues().size());
 		}
 		finally {
-			pm.close();
+			//pm.close();
 		}
 		
 		return found;
@@ -296,6 +298,8 @@ public class IdentifierAPI {
 	
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
+		pm = PMF.get().getPersistenceManager();
+		
 		javax.jdo.Query q = pm.newQuery(TreasureHunt.class);
 
 		List<TreasureHunt> results = new ArrayList<TreasureHunt>();
@@ -306,10 +310,15 @@ public class IdentifierAPI {
 		} finally {
 		  q.closeAll();
 		}
+		
+		//pm.close();
+		
 		return results;
 	}
 	
 	private void addTreasureHuntToAllUsers(TreasureHunt newTH) {
+		pm = PMF.get().getPersistenceManager();
+		
 		List<Identifier> resultsIds = getAllIdsFromDatastore();
 		
 		for (Identifier i : resultsIds) {
@@ -328,6 +337,9 @@ public class IdentifierAPI {
 		} finally {
 		  q.closeAll();
 		}
+		
+		//pm.close();
+		
 		return results;
 	}
 }

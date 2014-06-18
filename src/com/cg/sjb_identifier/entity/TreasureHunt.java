@@ -3,7 +3,6 @@ package com.cg.sjb_identifier.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -11,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class TreasureHunt {	
 	@Persistent
 	String uniqueId;
@@ -24,20 +23,20 @@ public class TreasureHunt {
 	String name;
 	
 	@Persistent
-	List<Clue> clues;
+	List<Clue> clues = new ArrayList<Clue>();
 	
 	@Persistent
 	boolean isCompleted;
 	
 	public TreasureHunt() {
-		this.clues = new ArrayList<Clue>();
+		//this.clues = null;
 		isCompleted = false;
 	}
 	
 	public TreasureHunt(String id) {
 		super();
 		this.uniqueId = id;
-		this.clues = new ArrayList<Clue>();
+		//this.clues = null;
 		isCompleted = false;
 	}
 
@@ -45,7 +44,7 @@ public class TreasureHunt {
 		super();
 		this.uniqueId = id;
 		this.name = name;
-		this.clues = new ArrayList<Clue>();
+		//this.clues = null;
 		isCompleted = false;
 	}
 	
@@ -68,14 +67,14 @@ public class TreasureHunt {
 	public List<Clue> getAllClues() {
 		//this.clues = new ArrayList<Clue>();
 		//System.out.println(this.clues.size());
-		if (this.clues.size() == 0)
+		if (this.clues.isEmpty())
 		//if (this.clues == null)
 			this.clues = new ArrayList<Clue>();
 		return this.clues;
 	}
 	
 	public TreasureHunt addClueTo(Clue newClue) {
-		if (this.clues == null) {
+		if (this.clues.isEmpty()) {
 			this.clues = new ArrayList<Clue>();
 		}
 		this.clues.add(newClue);
