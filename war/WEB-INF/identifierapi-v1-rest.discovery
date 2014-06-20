@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/0xyX-DIaIwYIOl9IQ3qLOCkZrIA\"",
+ "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/vLRhuYmbEu2ea6kec4PjdFjQPeo\"",
  "discoveryVersion": "v1",
  "id": "identifierapi:v1",
  "name": "identifierapi",
@@ -87,6 +87,9 @@
      "items": {
       "type": "string"
      }
+    },
+    "isFoundClue": {
+     "type": "boolean"
     }
    }
   },
@@ -161,14 +164,14 @@
       "$ref": "Clue"
      }
     },
-    "completed": {
-     "type": "boolean"
-    },
     "key": {
      "$ref": "Key"
     },
     "name": {
      "type": "string"
+    },
+    "thcompleted": {
+     "type": "boolean"
     },
     "uniqueId": {
      "type": "string"
@@ -406,6 +409,30 @@
    },
    "parameterOrder": [
     "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "setTHCompletedForUser": {
+   "id": "identifierapi.setTHCompletedForUser",
+   "path": "setTHCompletedTHForUser/{id}/{thID}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "thID": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "thID"
    ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"

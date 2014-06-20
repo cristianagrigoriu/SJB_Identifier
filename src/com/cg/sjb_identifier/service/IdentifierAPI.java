@@ -220,6 +220,7 @@ public class IdentifierAPI {
 		Identifier found = getId(id);
 		List<Key> keyTHs = new ArrayList<Key>();
 		
+			//
 			if (found != null) {
 				for (TreasureHunt th : resultsTH) {
 					if (!found.hasTreasureHunt(th.getKey()))
@@ -295,7 +296,27 @@ public class IdentifierAPI {
 		return found;
 	}
 	
-	
+	@ApiMethod(name="setTHCompletedForUser")
+	public void setTHCompletedTHForUser(@Named("id") String userId, @Named("thID") String thId) throws NotFoundException {		
+		Identifier id = getId(userId);
+		TreasureHunt th = getTreasureHuntById(thId);
+		th.setCompleted();
+		
+		if (id != null && th != null && id.hasTreasureHunt(th.getKey())) {
+			pm = PMF.get().getPersistenceManager();
+			try {
+				id.deleteTreasureHunt(th.getKey());
+				id.addTreasureHunt(th.getKey());
+				pm.makePersistent(id);
+			}
+			finally {
+				pm.close();
+			}
+		}
+		else {
+			throw new NotFoundException("ID Record does not exist");
+		}
+	}
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
 		pm = PMF.get().getPersistenceManager();
