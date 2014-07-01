@@ -24,10 +24,14 @@ public class Identifier {
 	private String name;
 	
 	@Persistent
-	private List<Key> treasureHunts;
+	private List<Key> treasureHuntKeys;
+	
+	@Persistent
+	private List<TreasureHunt> treasureHunts;
 	
 	public Identifier() {
-		treasureHunts = new ArrayList<Key>();
+		treasureHuntKeys = new ArrayList<Key>();
+		treasureHunts = new ArrayList<TreasureHunt>();
 	}
 	
 	public Identifier(String id) {
@@ -35,7 +39,8 @@ public class Identifier {
 		Key key = KeyFactory.createKey(Identifier.class.getSimpleName(), id);
 		this.key = key;
 		this.uniqueId = id;
-		treasureHunts = new ArrayList<Key>();
+		treasureHuntKeys = new ArrayList<Key>();
+		treasureHunts = new ArrayList<TreasureHunt>();
 	}
 
 	public Identifier(String id, String name) {
@@ -44,7 +49,8 @@ public class Identifier {
 		this.key = key;
 		this.uniqueId = id;
 		this.name = name;
-		treasureHunts = new ArrayList<Key>();
+		treasureHuntKeys = new ArrayList<Key>();
+		treasureHunts = new ArrayList<TreasureHunt>();
 	}
 	
 	public String getUniqueId() {
@@ -63,29 +69,44 @@ public class Identifier {
         this.key = key;
     }
 	
-	public List<Key> getTreasureHunts() {
+	public List<Key> getTreasureHuntKeys() {
+		return this.treasureHuntKeys;
+	}
+	
+	public void setTreasureHuntKeys(List<Key> ths) {
+		this.treasureHuntKeys = ths;
+	}
+	
+	public List<TreasureHunt> getTreasureHunts() {
 		return this.treasureHunts;
 	}
 	
-	public void setTreasureHunts(List<Key> ths) {
+	public void setTreasureHuns(List<TreasureHunt> ths) {
 		this.treasureHunts = ths;
 	}
 	
-	public void addTreasureHunt(Key th) {
+	public void addTreasureHunt(TreasureHunt th) {
+		this.treasureHuntKeys.add(th.getKey());
 		this.treasureHunts.add(th);
 	}
 	
-	public void deleteTreasureHunt(Key key) {
-		if (!this.treasureHunts.isEmpty())
-			for (Key k : this.treasureHunts)
-				if (k.equals(key))
-					this.treasureHunts.remove(k);
+	public void deleteTreasureHunt(TreasureHunt th) {
+		if (this.treasureHuntKeys != null)
+			for (Key k : this.treasureHuntKeys)
+				if (k.equals(th.getKey()))
+					this.treasureHuntKeys.remove(k);
+		
+		if (this.treasureHunts != null)
+			for (TreasureHunt t : this.treasureHunts)
+				if (t.equals(th))
+					this.treasureHunts.remove(t);		
 	}
 	
-	public boolean hasTreasureHunt(Key k) {
-		for (Key kk : this.treasureHunts)
-			if (kk.equals(k))
-				return true;
+	public boolean hasTreasureHunt(TreasureHunt th) {
+		if (this.treasureHunts != null)
+			for (TreasureHunt t : this.treasureHunts)
+				if (th.equals(t))
+					return true;
 		return false;
 	}
 }

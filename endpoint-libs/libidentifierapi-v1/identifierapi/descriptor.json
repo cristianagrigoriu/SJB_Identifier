@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/identifierapi/v1/20140620082004/java/1.16.0-rc/awesometreasurehunt_appspot_com-identifierapi-v1-20140620082004-java-1.16.0-rc-sources.jar", 
-      "path": "awesometreasurehunt_appspot_com-identifierapi-v1-20140620082004-java-1.16.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/identifierapi/v1/20140624171349/java/1.16.0-rc/awesometreasurehunt_appspot_com-identifierapi-v1-20140624171349-java-1.16.0-rc-sources.jar", 
+      "path": "awesometreasurehunt_appspot_com-identifierapi-v1-20140624171349-java-1.16.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-06-20 08:20"
+      "timestamp": "2014-06-24 17:13"
     }, 
     {
-      "path": "awesometreasurehunt_appspot_com-identifierapi-v1-20140620082004-java-1.16.0-rc.jar.properties", 
+      "path": "awesometreasurehunt_appspot_com-identifierapi-v1-20140624171349-java-1.16.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -701,5 +701,5 @@
   "version": "v1", 
   "language_version": "1.16.0-rc", 
   "id": "identifierapi:v1", 
-  "revision": 20140620082004
+  "revision": 20140624171349
 }

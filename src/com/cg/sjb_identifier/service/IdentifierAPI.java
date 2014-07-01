@@ -38,13 +38,17 @@ public class IdentifierAPI {
 			    }
 		} 
 		
+		
+		
 		try {
 			pm.makePersistent(newId);
 		}
 		finally {
 			pm.close();
 		}
-			
+		
+		
+		
 		return newId;
 	}
 
@@ -87,7 +91,7 @@ public class IdentifierAPI {
 		}
 		finally {
 			pm.close();
-		}
+		}	
 	}
 
 	@ApiMethod(name="getID")
@@ -152,8 +156,8 @@ public class IdentifierAPI {
 					List<Identifier> ids = getAllIdsFromDatastore();
 					if (!ids.isEmpty())
 						for (Identifier i : ids)
-							if (i.hasTreasureHunt(t.getKey()))
-								i.deleteTreasureHunt(t.getKey());
+							if (i.hasTreasureHunt(t))
+								i.deleteTreasureHunt(t);
 					try {
 						pm.deletePersistent(t);
 					}
@@ -223,11 +227,11 @@ public class IdentifierAPI {
 			//
 			if (found != null) {
 				for (TreasureHunt th : resultsTH) {
-					if (!found.hasTreasureHunt(th.getKey()))
+					if (!found.hasTreasureHunt(th))
 						keyTHs.add(th.getKey());
 				}
 				
-				found.setTreasureHunts(keyTHs);
+				found.setTreasureHuntKeys(keyTHs);
 				
 				pm = PMF.get().getPersistenceManager();
 				try {
@@ -248,7 +252,7 @@ public class IdentifierAPI {
 	@ApiMethod(name="getTreasureHuntsForId")
 	public List<TreasureHunt> getTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		Identifier found = getId(id);
-		List<Key> resultsTH = found.getTreasureHunts();
+		List<Key> resultsTH = found.getTreasureHuntKeys();
 		
 		try {
 			List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
@@ -302,11 +306,34 @@ public class IdentifierAPI {
 		TreasureHunt th = getTreasureHuntById(thId);
 		th.setCompleted();
 		
-		if (id != null && th != null && id.hasTreasureHunt(th.getKey())) {
+		if (id != null && th != null && id.hasTreasureHunt(th)) {
 			pm = PMF.get().getPersistenceManager();
 			try {
-				id.deleteTreasureHunt(th.getKey());
-				id.addTreasureHunt(th.getKey());
+				id.deleteTreasureHunt(th);
+				id.addTreasureHunt(th);
+				pm.makePersistent(id);
+			}
+			finally {
+				pm.close();
+			}
+		}
+		else {
+			throw new NotFoundException("ID Record does not exist");
+		}
+	}
+	
+	@ApiMethod(name="setClueCompletedForTHForUser")
+	public void setClueCompletedForTHForUser(@Named("id") String userId, @Named("thID") String thId, @Named("clueNo") int clueNo) throws NotFoundException {		
+		Identifier id = getId(userId);
+		TreasureHunt th = getTreasureHuntById(thId);
+		if (th != null)
+			th.getAllClues().get(clueNo).setClueFound();
+		
+		if (id != null && th != null && id.hasTreasureHunt(th)) {
+			pm = PMF.get().getPersistenceManager();
+			try {
+				id.deleteTreasureHunt(th);
+				id.addTreasureHunt(th);
 				pm.makePersistent(id);
 			}
 			finally {
@@ -343,7 +370,7 @@ public class IdentifierAPI {
 		List<Identifier> resultsIds = getAllIdsFromDatastore();
 		
 		for (Identifier i : resultsIds) {
-			i.addTreasureHunt(newTH.getKey());
+			i.addTreasureHunt(newTH);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/vLRhuYmbEu2ea6kec4PjdFjQPeo\"",
+ "etag": "\"p_qcyFV0KQVqSB1Aq3pqmPu-2MY/8bDfP_VxFsJVRv2NWDh0xuAHaNE\"",
  "discoveryVersion": "v1",
  "id": "identifierapi:v1",
  "name": "identifierapi",
@@ -378,6 +378,32 @@
    },
    "parameterOrder": [
     "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "identifierapi.setClueCompletedForTHForUser": {
+   "id": "identifierapi.setClueCompletedForTHForUser",
+   "parameters": {
+    "clueNo": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    },
+    "id": {
+     "type": "string",
+     "required": true
+    },
+    "thID": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id",
+    "thID",
+    "clueNo"
    ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"

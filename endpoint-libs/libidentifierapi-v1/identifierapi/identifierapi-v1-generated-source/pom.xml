@@ -8,8 +8,8 @@
 
   <groupId>com.google.apis</groupId>
   <artifactId>google-api-services-identifierapi</artifactId>
-  <version>v1-rev20140620082004-1.16.0-rc</version>
-  <name>identifierapi v1 (revision 20140620082004)</name>
+  <version>v1-rev20140624171349-1.16.0-rc</version>
+  <name>identifierapi v1 (revision 20140624171349)</name>
   <packaging>jar</packaging>
 
   <inceptionYear>2011</inceptionYear>
