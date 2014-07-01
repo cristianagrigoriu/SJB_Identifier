@@ -1,11 +1,10 @@
 package com.cg.sjb_identifier.service;
-
-import com.cg.sjb_identifier.entity.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
+
+import org.apache.jasper.tagplugins.jstl.core.If;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -30,25 +29,19 @@ public class IdentifierAPI {
 		Identifier newId = new Identifier(id, name);
 		
 		List<Identifier> results = getAllIdsFromDatastore();
-		if (!results.isEmpty()) {
+		if (results != null) {
 			for (Identifier i : results) {
 				if (i.getUniqueId().equals(id))
 					//throw new EntityExistsException("ID Record already exists.");
 			    	return newId;
 			    }
 		} 
-		
-		
-		
 		try {
 			pm.makePersistent(newId);
 		}
 		finally {
 			pm.close();
 		}
-		
-		
-		
 		return newId;
 	}
 
@@ -79,7 +72,7 @@ public class IdentifierAPI {
 		List<Identifier> results = getAllIdsFromDatastore();
 		
 		try {
-			if (!results.isEmpty()) {
+			if (results != null) {
 				for (Identifier p : results) {
 			    	System.out.println(p.getUniqueId() + " " + p.getName());
 			    }
@@ -100,7 +93,7 @@ public class IdentifierAPI {
 		List<Identifier> results = getAllIdsFromDatastore();
 		
 		try {
-			if (!results.isEmpty()) {
+			if (results != null) {
 				for (Identifier i : results) {
 					if (i.getUniqueId().equals(id))
 			    		return i;
@@ -122,7 +115,7 @@ public class IdentifierAPI {
 		TreasureHunt newTH = new TreasureHunt(id, name);
 				
 		List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
-		if (!results.isEmpty()) {
+		if (results!= null) {
 			for (TreasureHunt t : results) {
 				if (t.getUniqueId().equals(id))
 					//throw new EntityExistsException("ID Record already exists.");
@@ -149,12 +142,12 @@ public class IdentifierAPI {
 		
 		List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
 		
-		if (!results.isEmpty()) {
+		if (results != null) {
 			for (TreasureHunt t : results) {
 				if (t.getUniqueId().equals(id)) {
 					/*delete cascade th from all users' lists*/
 					List<Identifier> ids = getAllIdsFromDatastore();
-					if (!ids.isEmpty())
+					if (ids != null)
 						for (Identifier i : ids)
 							if (i.hasTreasureHunt(t))
 								i.deleteTreasureHunt(t);
@@ -177,7 +170,7 @@ public class IdentifierAPI {
 		List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
 		
 		try {
-			if (!results.isEmpty()) {
+			if (results != null) {
 				for (TreasureHunt t : results) {
 			    	System.out.println(t.getUniqueId() + " " + t.getName());
 			    	//System.out.println(t.getAllClues().size());
@@ -201,7 +194,7 @@ public class IdentifierAPI {
 		try {
 			List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
 			
-			if (!results.isEmpty()) {
+			if (results != null) {
 				for (TreasureHunt t : results) {
 					if (t.getUniqueId().equals(id)) {
 			    		return t; }
@@ -223,15 +216,19 @@ public class IdentifierAPI {
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
 		Identifier found = getId(id);
 		List<Key> keyTHs = new ArrayList<Key>();
+		List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
 		
 			//
 			if (found != null) {
 				for (TreasureHunt th : resultsTH) {
-					if (!found.hasTreasureHunt(th))
+					if (!found.hasTreasureHunt(th)) {
 						keyTHs.add(th.getKey());
+						ths.add(th);
+					}
 				}
 				
-				found.setTreasureHuntKeys(keyTHs);
+				//found.setTreasureHuntKeys(keyTHs);
+				found.addTreasureHuntList(ths);
 				
 				pm = PMF.get().getPersistenceManager();
 				try {
@@ -252,9 +249,11 @@ public class IdentifierAPI {
 	@ApiMethod(name="getTreasureHuntsForId")
 	public List<TreasureHunt> getTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		Identifier found = getId(id);
-		List<Key> resultsTH = found.getTreasureHuntKeys();
+		//List<Key> resultsTH = found.getTreasureHuntKeys();
 		
-		try {
+		return found.getTreasureHunts();
+		
+		/*try {
 			List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
 			pm = PMF.get().getPersistenceManager();
 			for (Key keyTH : resultsTH) {
@@ -266,7 +265,7 @@ public class IdentifierAPI {
 		}
 		finally {
 			pm.close();
-		}
+		}*/
 	}
 	
 	@ApiMethod(name="addClue")
@@ -290,8 +289,8 @@ public class IdentifierAPI {
 		//pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistent(found);
-			TreasureHunt start = getTreasureHuntById(id);
-			System.out.println(start.getAllClues().size());
+			//TreasureHunt start = getTreasureHuntById(id);
+			//System.out.println(start.getAllClues().size());
 		}
 		finally {
 			//pm.close();
@@ -303,42 +302,41 @@ public class IdentifierAPI {
 	@ApiMethod(name="setTHCompletedForUser")
 	public void setTHCompletedTHForUser(@Named("id") String userId, @Named("thID") String thId) throws NotFoundException {		
 		Identifier id = getId(userId);
-		TreasureHunt th = getTreasureHuntById(thId);
-		th.setCompleted();
+		TreasureHunt th;
 		
-		if (id != null && th != null && id.hasTreasureHunt(th)) {
+		if (id != null) {
+			if ((th = id.getUserTH(thId)) != null)
+				th.setCompleted();
+			
 			pm = PMF.get().getPersistenceManager();
 			try {
-				id.deleteTreasureHunt(th);
-				id.addTreasureHunt(th);
 				pm.makePersistent(id);
 			}
 			finally {
 				pm.close();
 			}
 		}
-		else {
+		else
 			throw new NotFoundException("ID Record does not exist");
-		}
 	}
 	
 	@ApiMethod(name="setClueCompletedForTHForUser")
 	public void setClueCompletedForTHForUser(@Named("id") String userId, @Named("thID") String thId, @Named("clueNo") int clueNo) throws NotFoundException {		
 		Identifier id = getId(userId);
-		TreasureHunt th = getTreasureHuntById(thId);
-		if (th != null)
-			th.getAllClues().get(clueNo).setClueFound();
 		
-		if (id != null && th != null && id.hasTreasureHunt(th)) {
-			pm = PMF.get().getPersistenceManager();
-			try {
-				id.deleteTreasureHunt(th);
-				id.addTreasureHunt(th);
-				pm.makePersistent(id);
-			}
-			finally {
-				pm.close();
-			}
+		if (id != null) {
+			TreasureHunt th = id.getUserTH(thId);
+			
+			if (th != null && th.getAllClues() != null)
+				th.getAllClues().get(clueNo).setClueFound();
+			
+				pm = PMF.get().getPersistenceManager();
+				try {
+					pm.makePersistent(id);
+				}
+				finally {
+					pm.close();
+				}	
 		}
 		else {
 			throw new NotFoundException("ID Record does not exist");

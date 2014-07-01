@@ -90,6 +90,12 @@ public class Identifier {
 		this.treasureHunts.add(th);
 	}
 	
+	public void addTreasureHuntList(List<TreasureHunt> thList) {
+		if (thList != null)
+			for (TreasureHunt t : thList)
+				this.addTreasureHunt(t);
+	}
+	
 	public void deleteTreasureHunt(TreasureHunt th) {
 		if (this.treasureHuntKeys != null)
 			for (Key k : this.treasureHuntKeys)
@@ -102,10 +108,18 @@ public class Identifier {
 					this.treasureHunts.remove(t);		
 	}
 	
+	public TreasureHunt getUserTH(String id) {
+		if (this.treasureHunts != null)
+			for (TreasureHunt t : this.treasureHunts)
+				if (t.getUniqueId().equals(id))
+					return t;
+		return null;
+	}
+	
 	public boolean hasTreasureHunt(TreasureHunt th) {
 		if (this.treasureHunts != null)
 			for (TreasureHunt t : this.treasureHunts)
-				if (th.equals(t))
+				if (th.getUniqueId().equals(t.getUniqueId()))
 					return true;
 		return false;
 	}
