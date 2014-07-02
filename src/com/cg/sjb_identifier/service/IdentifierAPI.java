@@ -344,7 +344,7 @@ public class IdentifierAPI {
 			
 			if (th != null && th.getAllClues() != null)
 				th.getAllClues().get(clueNo).setClueFound();
-			
+				pm.close();
 				pm = PMF.get().getPersistenceManager();
 				try {
 					pm.makePersistent(id);
