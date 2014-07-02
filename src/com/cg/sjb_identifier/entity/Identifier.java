@@ -11,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Identifier {
 	@Persistent
 	private String uniqueId;
@@ -86,7 +86,7 @@ public class Identifier {
 	}
 	
 	public void addTreasureHunt(TreasureHunt th) {
-		this.treasureHuntKeys.add(th.getKey());
+		//this.treasureHuntKeys.add(th.getKey());
 		this.treasureHunts.add(th);
 	}
 	
@@ -109,11 +109,12 @@ public class Identifier {
 	}
 	
 	public TreasureHunt getUserTH(String id) {
+		TreasureHunt result = new TreasureHunt();
 		if (this.treasureHunts != null)
 			for (TreasureHunt t : this.treasureHunts)
 				if (t.getUniqueId().equals(id))
-					return t;
-		return null;
+					result = t;
+		return result;
 	}
 	
 	public boolean hasTreasureHunt(TreasureHunt th) {

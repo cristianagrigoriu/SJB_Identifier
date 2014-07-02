@@ -378,11 +378,11 @@
           "parent" : {
             "$ref" : "Key"
           },
-          "complete" : {
-            "type" : "boolean"
-          },
           "namespace" : {
             "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
           }
         }
       },
@@ -399,14 +399,14 @@
           "name" : {
             "type" : "string"
           },
-          "thcompleted" : {
-            "type" : "boolean"
-          },
           "allClues" : {
             "type" : "array",
             "items" : {
               "$ref" : "Clue"
             }
+          },
+          "thcompleted" : {
+            "type" : "boolean"
           }
         }
       },

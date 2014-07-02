@@ -2,6 +2,7 @@ package com.cg.sjb_identifier.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import org.apache.jasper.tagplugins.jstl.core.If;
@@ -174,7 +175,7 @@ public class IdentifierAPI {
 				for (TreasureHunt t : results) {
 			    	System.out.println(t.getUniqueId() + " " + t.getName());
 			    	//System.out.println(t.getAllClues().size());
-			    	System.out.println(t.getKey());
+			    	//System.out.println(t.getKey());
 			    }
 			} else {
 				throw new NotFoundException("ID Record does not exist");
@@ -212,30 +213,40 @@ public class IdentifierAPI {
 	/*adds just the treasure hunts the user does not have already*/
 	@ApiMethod(name="setTreasureHuntsForId")
 	public Identifier setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
-		pm = PMF.get().getPersistenceManager();
+		//pm = PMF.get().getPersistenceManager();
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
+		pm.close();
 		Identifier found = getId(id);
+		//Identifier found = pm.detachCopy(getId(id));
 		List<Key> keyTHs = new ArrayList<Key>();
 		List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
-		
+		System.out.println(JDOHelper.getPersistenceManager(found));
+		System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
 			//
 			if (found != null) {
 				for (TreasureHunt th : resultsTH) {
 					if (!found.hasTreasureHunt(th)) {
 						keyTHs.add(th.getKey());
 						ths.add(th);
+						System.out.println(JDOHelper.getPersistenceManager(th.getKey()));
 					}
 				}
 				
 				//found.setTreasureHuntKeys(keyTHs);
-				found.addTreasureHuntList(ths);
+				//found.addTreasureHuntList(ths);
 				
-				pm = PMF.get().getPersistenceManager();
+				//pm = PMF.get().getPersistenceManager();
 				try {
+					pm.close();
+					pm = PMF.get().getPersistenceManager();
+					found.addTreasureHuntList(ths);
+					System.out.println(JDOHelper.getPersistenceManager(found));
+					System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
+					
 					pm.makePersistent(found);
 				}
 				finally {
-					pm.close();
+					//pm.close();
 				}
 				
 				return found;

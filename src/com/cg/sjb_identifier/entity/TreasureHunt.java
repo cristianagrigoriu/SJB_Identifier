@@ -3,6 +3,7 @@ package com.cg.sjb_identifier.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -13,6 +14,8 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(detachable="true")
 public class TreasureHunt {	
 	@Persistent
+	//@PrimaryKey
+	//@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	String uniqueId;
 	
 	@PrimaryKey
