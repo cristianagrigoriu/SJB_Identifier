@@ -47,7 +47,7 @@
         "body" : "empty"
       },
       "response" : {
-        "body" : "empty"
+        "body" : "autoTemplate(backendResponse)"
       }
     },
     "identifierapi.getID" : {
@@ -65,21 +65,6 @@
             "required" : true
           }
         },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "identifierapi.list" : {
-      "path" : "identifiercollection",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getIds",
-      "request" : {
         "body" : "empty"
       },
       "response" : {
@@ -105,6 +90,21 @@
             "required" : true
           }
         },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "identifierapi.list" : {
+      "path" : "identifiercollection",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getIds",
+      "request" : {
         "body" : "empty"
       },
       "response" : {
@@ -399,14 +399,14 @@
           "name" : {
             "type" : "string"
           },
+          "thcompleted" : {
+            "type" : "boolean"
+          },
           "allClues" : {
             "type" : "array",
             "items" : {
               "$ref" : "Clue"
             }
-          },
-          "thcompleted" : {
-            "type" : "boolean"
           }
         }
       },
@@ -458,20 +458,23 @@
     },
     "methods" : {
       "com.cg.sjb_identifier.service.IdentifierAPI.setTHCompletedTHForUser" : {
+        "response" : {
+          "$ref" : "Identifier"
+        }
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.getId" : {
         "response" : {
           "$ref" : "Identifier"
         }
       },
-      "com.cg.sjb_identifier.service.IdentifierAPI.getIds" : {
-        "response" : {
-          "$ref" : "IdentifierCollection"
-        }
-      },
       "com.cg.sjb_identifier.service.IdentifierAPI.addTreasureHunt" : {
         "response" : {
           "$ref" : "TreasureHunt"
+        }
+      },
+      "com.cg.sjb_identifier.service.IdentifierAPI.getIds" : {
+        "response" : {
+          "$ref" : "IdentifierCollection"
         }
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts" : {
