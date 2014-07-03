@@ -218,11 +218,9 @@ public class IdentifierAPI {
 	/*adds just the treasure hunts the user does not have already*/
 	@ApiMethod(name="setTreasureHuntsForId")
 	public Identifier setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
-		//pm = PMF.get().getPersistenceManager();
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
 		pm.close();
 		Identifier found = getId(id);
-		//Identifier found = pm.detachCopy(getId(id));
 		List<Key> keyTHs = new ArrayList<Key>();
 		List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
 		System.out.println(JDOHelper.getPersistenceManager(found));
@@ -239,17 +237,24 @@ public class IdentifierAPI {
 					}
 				try {
 					found.addTreasureHuntList(ths);
+					
 					pm.makePersistent(found);
 				}
 				finally {
 					pm.close();
 				}
 				
+				pm = PMF.get().getPersistenceManager();
+				
 				/*add to the treasure hunts of the current id that id in the connectedIds list*/
 				List<TreasureHunt> newTHs = getTreasureHuntsForId(id);
 				for (TreasureHunt t : newTHs)
 					if (!t.hasConnectedId(id))
 						t.addConnectedId(found.getUniqueId());
+				
+				pm.makePersistent(found);
+				
+				pm.close();
 				
 				return found;
 			}
@@ -262,27 +267,7 @@ public class IdentifierAPI {
 	@ApiMethod(name="getTreasureHuntsForId")
 	public List<TreasureHunt> getTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		Identifier found = getId(id);
-		//List<Key> resultsTH = found.getTreasureHuntKeys();
-		
-		found.setTreasureHuns(null);
-		if (found.getTreasureHunts() != null)
-			return found.getTreasureHunts();
-		else
-			return null;
-		
-		/*try {
-			List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
-			pm = PMF.get().getPersistenceManager();
-			for (Key keyTH : resultsTH) {
-				TreasureHunt t = pm.getObjectById(TreasureHunt.class, keyTH);
-				ths.add(t);
-			}
-				
-			return ths;
-		}
-		finally {
-			pm.close();
-		}*/
+		return found.getTreasureHunts();
 	}
 	
 	@ApiMethod(name="addClue")
@@ -359,6 +344,19 @@ public class IdentifierAPI {
 		else {
 			throw new NotFoundException("ID Record does not exist");
 		}
+	}
+	
+	@ApiMethod(name="getConnectedIdsForUserTH")
+	public List<String> getConnectedIdsForUserTH(@Named("id") String id, @Named("thId") String thId) throws NotFoundException {
+		Identifier found = getId(id);
+		TreasureHunt t;
+		
+		if ((t = found.getUserTH(thId)) != null)
+			if (t.getAllConnectedIds() != null)
+					return t.getAllConnectedIds();
+		
+		return null;
+		
 	}
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {

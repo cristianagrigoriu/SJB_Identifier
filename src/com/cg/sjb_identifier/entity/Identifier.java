@@ -81,7 +81,7 @@ public class Identifier {
 		return this.treasureHunts;
 	}
 	
-	public void setTreasureHuns(List<TreasureHunt> ths) {
+	public void setTreasureHunts(List<TreasureHunt> ths) {
 		if (this.treasureHunts == null)
 			this.treasureHunts = new ArrayList<TreasureHunt>();
 		this.treasureHunts = ths;
