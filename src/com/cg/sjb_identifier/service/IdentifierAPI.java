@@ -57,8 +57,8 @@ public class IdentifierAPI {
 				if (i.getUniqueId().equals(id))
 					try {
 						//i = null;
-						System.out.println(i.getTreasureHuntKeys().size());
-						System.out.println(i.getTreasureHunts().size());
+						//System.out.println(i.getTreasureHuntKeys().size());
+						//System.out.println(i.getTreasureHunts().size());
 						pm.deletePersistent(i);
 					}
 					finally {
@@ -145,6 +145,7 @@ public class IdentifierAPI {
 		
 		
 		List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
+		pm.close();
 		
 		if (results != null) {
 			try
@@ -153,12 +154,13 @@ public class IdentifierAPI {
 					if (t.getUniqueId().equals(id)) {
 						pm = PMF.get().getPersistenceManager();
 						/*delete cascade th from all users' lists*/
-						List<Identifier> ids = getAllIdsFromDatastore();
+						/*List<Identifier> ids = getAllIdsFromDatastore();
 						if (ids != null)
 							for (Identifier i : ids)
 								if (!(i.getUniqueId().equals("13")) && i.hasTreasureHunt(t))
-									i.deleteTreasureHunt(t);
+									i.deleteTreasureHunt(t);*/
 						
+						pm.makePersistent(t);
 						pm.deletePersistent(t);
 					}
 			}
@@ -220,19 +222,23 @@ public class IdentifierAPI {
 	public Identifier setTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		List<TreasureHunt> resultsTH = getAllTreasureHuntsFromDatastore();
 		pm.close();
+		//System.out.println(resultsTH.get(0).equals(resultsTH.get(1)));
 		Identifier found = getId(id);
 		List<Key> keyTHs = new ArrayList<Key>();
 		List<TreasureHunt> ths = new ArrayList<TreasureHunt>();
-		System.out.println(JDOHelper.getPersistenceManager(found));
-		System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
+		//System.out.println(JDOHelper.getPersistenceManager(found));
+		//System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
 			//
 			if (found != null) {
 				if (resultsTH != null)
 					for (TreasureHunt th : resultsTH) {
 						if (!found.hasTreasureHunt(th)) {
-							keyTHs.add(th.getKey());
-							ths.add(th);
-							System.out.println(JDOHelper.getPersistenceManager(th.getKey()));
+							if (th.getAllConnectedIds().size() == 0) {
+								th.addConnectedId(id);
+								keyTHs.add(th.getKey());
+								ths.add(th);
+								System.out.println(JDOHelper.getPersistenceManager(th.getKey()));
+							}
 						}
 					}
 				try {
@@ -244,17 +250,7 @@ public class IdentifierAPI {
 					pm.close();
 				}
 				
-				pm = PMF.get().getPersistenceManager();
-				
-				/*add to the treasure hunts of the current id that id in the connectedIds list*/
-				List<TreasureHunt> newTHs = getTreasureHuntsForId(id);
-				for (TreasureHunt t : newTHs)
-					if (!t.hasConnectedId(id))
-						t.addConnectedId(found.getUniqueId());
-				
-				pm.makePersistent(found);
-				
-				pm.close();
+				//addConnectedId(found);
 				
 				return found;
 			}
@@ -264,10 +260,27 @@ public class IdentifierAPI {
 		
 	}
 	
+	private void addConnectedId(Identifier found) throws NotFoundException {
+		/*add to the treasure hunts of the current id that id in the connectedIds list*/
+		List<TreasureHunt> newTHs = getTreasureHuntsForId(found.getUniqueId());
+		pm.close();
+		pm = PMF.get().getPersistenceManager();
+		for (TreasureHunt t : newTHs)
+			if (!t.hasConnectedId(found.getUniqueId()))
+				t.addConnectedId(found.getUniqueId());
+		
+		pm.makePersistent(found);
+		
+		pm.close();
+	}
+	
 	@ApiMethod(name="getTreasureHuntsForId")
 	public List<TreasureHunt> getTreasureHuntsForId(@Named("id") String id) throws NotFoundException {
 		Identifier found = getId(id);
-		return found.getTreasureHunts();
+		if (found != null)
+			return found.getTreasureHunts();
+		else
+			return null;
 	}
 	
 	@ApiMethod(name="addClue")
@@ -356,7 +369,68 @@ public class IdentifierAPI {
 					return t.getAllConnectedIds();
 		
 		return null;
+	}
+	
+	@ApiMethod(name="link")
+	public void linkIdsForTH(@Named("id1") String userId1, @Named("id2") String userId2, @Named("thID") String thId) throws NotFoundException {		
+		List<TreasureHunt> t1 = getTreasureHuntsForId(userId1);
+		List<TreasureHunt> t2 = getTreasureHuntsForId(userId2);
 		
+		if (t1 != null && t2 != null) {
+			if (t1 != null) {
+				for (TreasureHunt th : t1) {
+					if (th.getUniqueId().equals(thId))
+						th.addConnectedId(userId2);
+				}
+				
+				if (t2 != null) {
+					for (TreasureHunt th : t2) {
+						if (th.getUniqueId().equals(thId))
+							th.addConnectedId(userId1);
+					}
+				}
+			}
+		}
+		
+		pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(t1);
+			pm.makePersistent(t2);
+		}
+		finally {
+			pm.close();
+		}
+		
+		
+		/*Identifier id1 = getId(userId1);
+		pm.close();
+		Identifier id2 = getId(userId2);
+		pm.close();
+		TreasureHunt th;
+		
+		if (id1 != null && id2 != null) {
+			if (id1 != null)
+				if ((th = id1.getUserTH(thId)) != null) {
+					th.addConnectedId(userId2);
+				
+					if (id2 != null)
+						if ((th = id2.getUserTH(thId)) != null) {
+							th.addConnectedId(userId1);
+							
+							//pm.close();
+							pm = PMF.get().getPersistenceManager();
+							try {
+								pm.makePersistent(id1);
+								pm.makePersistent(id2);
+							}
+							finally {
+								pm.close();
+							}
+						}
+				}
+		}
+		else
+			throw new NotFoundException("ID Record does not exist");*/
 	}
 	
 	private List<TreasureHunt> getAllTreasureHuntsFromDatastore() {
