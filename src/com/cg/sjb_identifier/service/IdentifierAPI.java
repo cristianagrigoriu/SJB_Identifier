@@ -52,10 +52,13 @@ public class IdentifierAPI {
 		
 		List<Identifier> results = getAllIdsFromDatastore();
 		
-		if (!results.isEmpty()) {
+		if (results != null) {
 			for (Identifier i : results) {
 				if (i.getUniqueId().equals(id))
 					try {
+						//i = null;
+						System.out.println(i.getTreasureHuntKeys().size());
+						System.out.println(i.getTreasureHunts().size());
 						pm.deletePersistent(i);
 					}
 					finally {
@@ -153,7 +156,7 @@ public class IdentifierAPI {
 						List<Identifier> ids = getAllIdsFromDatastore();
 						if (ids != null)
 							for (Identifier i : ids)
-								if (i.hasTreasureHunt(t))
+								if (!(i.getUniqueId().equals("13")) && i.hasTreasureHunt(t))
 									i.deleteTreasureHunt(t);
 						
 						pm.deletePersistent(t);
@@ -234,33 +237,19 @@ public class IdentifierAPI {
 							System.out.println(JDOHelper.getPersistenceManager(th.getKey()));
 						}
 					}
-				
-				//found.setTreasureHuntKeys(keyTHs);
-				//found.addTreasureHuntList(ths);
-				
-				//pm = PMF.get().getPersistenceManager();
 				try {
-					//pm.close();
-					//pm = PMF.get().getPersistenceManager();
 					found.addTreasureHuntList(ths);
-					
-					//System.out.println(JDOHelper.getPersistenceManager(found));
-					//System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
-					
 					pm.makePersistent(found);
-					
-					
-					
 				}
 				finally {
 					pm.close();
-					//Identifier f = getId(id);
 				}
 				
-				/*List<TreasureHunt> newTHs = getTreasureHuntsForId(id);
+				/*add to the treasure hunts of the current id that id in the connectedIds list*/
+				List<TreasureHunt> newTHs = getTreasureHuntsForId(id);
 				for (TreasureHunt t : newTHs)
 					if (!t.hasConnectedId(id))
-						t.addConnectedId(found.getUniqueId());*/
+						t.addConnectedId(found.getUniqueId());
 				
 				return found;
 			}

@@ -26,8 +26,8 @@ public class TreasureHunt {
 	@Persistent
 	List<Clue> clues = new ArrayList<Clue>();
 	
-	//@Persistent
-	//List<String> connectedIds = new ArrayList<String>();
+	@Persistent
+	List<String> connectedIds = new ArrayList<String>();
 	
 	@Persistent
 	boolean isCompleted;
@@ -76,7 +76,7 @@ public class TreasureHunt {
 		return this.clues;
 	}
 	
-	/*public List<String> getAllConnectedIds() {
+	public List<String> getAllConnectedIds() {
 		if (this.connectedIds == null)
 			this.connectedIds = new ArrayList<String>();
 		return this.connectedIds;
@@ -94,7 +94,7 @@ public class TreasureHunt {
 				if (i.equals(id))
 					return true;
 		return false;
-	}*/
+	}
 	
 	public TreasureHunt addClueTo(Clue newClue) {
 		if (this.clues == null)
