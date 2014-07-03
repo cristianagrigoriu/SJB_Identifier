@@ -139,7 +139,7 @@ public class IdentifierAPI {
 	
 	@ApiMethod(name="removeTreasureHunt")
 	public void removeTreasureHunt(@Named("id") String id) throws NotFoundException {
-		pm = PMF.get().getPersistenceManager();
+		
 		
 		List<TreasureHunt> results = getAllTreasureHuntsFromDatastore();
 		
@@ -148,6 +148,7 @@ public class IdentifierAPI {
 			{
 				for (TreasureHunt t : results)
 					if (t.getUniqueId().equals(id)) {
+						pm = PMF.get().getPersistenceManager();
 						/*delete cascade th from all users' lists*/
 						List<Identifier> ids = getAllIdsFromDatastore();
 						if (ids != null)
@@ -242,15 +243,24 @@ public class IdentifierAPI {
 					//pm.close();
 					//pm = PMF.get().getPersistenceManager();
 					found.addTreasureHuntList(ths);
+					
 					//System.out.println(JDOHelper.getPersistenceManager(found));
 					//System.out.println(JDOHelper.getPersistenceManager(found.getKey()));
 					
 					pm.makePersistent(found);
+					
+					
+					
 				}
 				finally {
 					pm.close();
 					//Identifier f = getId(id);
 				}
+				
+				/*List<TreasureHunt> newTHs = getTreasureHuntsForId(id);
+				for (TreasureHunt t : newTHs)
+					if (!t.hasConnectedId(id))
+						t.addConnectedId(found.getUniqueId());*/
 				
 				return found;
 			}
@@ -265,7 +275,11 @@ public class IdentifierAPI {
 		Identifier found = getId(id);
 		//List<Key> resultsTH = found.getTreasureHuntKeys();
 		
-		return found.getTreasureHunts();
+		found.setTreasureHuns(null);
+		if (found.getTreasureHunts() != null)
+			return found.getTreasureHunts();
+		else
+			return null;
 		
 		/*try {
 			List<TreasureHunt> ths = new ArrayList<TreasureHunt>();

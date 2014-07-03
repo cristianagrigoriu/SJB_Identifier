@@ -14,8 +14,6 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(detachable="true")
 public class TreasureHunt {	
 	@Persistent
-	//@PrimaryKey
-	//@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	String uniqueId;
 	
 	@PrimaryKey
@@ -27,6 +25,9 @@ public class TreasureHunt {
 	
 	@Persistent
 	List<Clue> clues = new ArrayList<Clue>();
+	
+	//@Persistent
+	//List<String> connectedIds = new ArrayList<String>();
 	
 	@Persistent
 	boolean isCompleted;
@@ -40,6 +41,7 @@ public class TreasureHunt {
 		super();
 		this.uniqueId = id;
 		//this.clues = null;
+		//this.connectedIds = new ArrayList<String>();
 		isCompleted = false;
 	}
 
@@ -48,6 +50,7 @@ public class TreasureHunt {
 		this.uniqueId = id;
 		this.name = name;
 		//this.clues = null;
+		//this.connectedIds = new ArrayList<String>();
 		isCompleted = false;
 	}
 	
@@ -68,18 +71,34 @@ public class TreasureHunt {
 	}
 	
 	public List<Clue> getAllClues() {
-		//this.clues = new ArrayList<Clue>();
-		//System.out.println(this.clues.size());
-		if (this.clues.isEmpty())
-		//if (this.clues == null)
+		if (this.clues == null)
 			this.clues = new ArrayList<Clue>();
 		return this.clues;
 	}
 	
+	/*public List<String> getAllConnectedIds() {
+		if (this.connectedIds == null)
+			this.connectedIds = new ArrayList<String>();
+		return this.connectedIds;
+	}
+	
+	public void addConnectedId(String id) {
+		if (this.connectedIds == null)
+			this.connectedIds = new ArrayList<String>();
+		this.connectedIds.add(id);
+	}
+	
+	public boolean hasConnectedId(String id) {
+		if (this.connectedIds != null)
+			for (String i : this.connectedIds)
+				if (i.equals(id))
+					return true;
+		return false;
+	}*/
+	
 	public TreasureHunt addClueTo(Clue newClue) {
-		if (this.clues.isEmpty()) {
+		if (this.clues == null)
 			this.clues = new ArrayList<Clue>();
-		}
 		this.clues.add(newClue);
 		return this;
 	}

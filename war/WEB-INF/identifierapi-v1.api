@@ -25,6 +25,27 @@
     "maxAge" : 0
   },
   "methods" : {
+    "identifierapi.getTreasureHuntsForId" : {
+      "path" : "treasurehuntcollection/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntsForId",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "identifierapi.setTHCompletedForUser" : {
       "path" : "setTHCompletedTHForUser/{id}/{thID}",
       "httpMethod" : "POST",
@@ -48,6 +69,56 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "identifierapi.removeIdentifier" : {
+      "path" : "id/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.removeId",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "identifierapi.setClueCompletedForTHForUser" : {
+      "path" : "setClueCompletedForTHForUser/{id}/{thID}/{clueNo}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.setClueCompletedForTHForUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          },
+          "thID" : {
+            "type" : "string",
+            "required" : true
+          },
+          "clueNo" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
       }
     },
     "identifierapi.getID" : {
@@ -111,134 +182,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "identifierapi.listTreasureHunts" : {
-      "path" : "treasurehuntcollection",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "identifierapi.setTreasureHuntsForId" : {
-      "path" : "setTreasureHuntsForId/{id}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.setTreasureHuntsForId",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "identifierapi.getTreasureHuntByID" : {
-      "path" : "treasurehunt/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntById",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "identifierapi.getTreasureHuntsForId" : {
-      "path" : "treasurehuntcollection/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntsForId",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "identifierapi.removeIdentifier" : {
-      "path" : "id/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.removeId",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "identifierapi.setClueCompletedForTHForUser" : {
-      "path" : "setClueCompletedForTHForUser/{id}/{thID}/{clueNo}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.setClueCompletedForTHForUser",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "string",
-            "required" : true
-          },
-          "thID" : {
-            "type" : "string",
-            "required" : true
-          },
-          "clueNo" : {
-            "type" : "int32",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "identifierapi.addClue" : {
       "path" : "addClue/{id}/{instruction1}/{instruction2}/{coordinateLat}/{coordinateLong}",
       "httpMethod" : "POST",
@@ -267,6 +210,63 @@
           },
           "coordinateLong" : {
             "type" : "double",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "identifierapi.setTreasureHuntsForId" : {
+      "path" : "setTreasureHuntsForId/{id}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.setTreasureHuntsForId",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "identifierapi.listTreasureHunts" : {
+      "path" : "treasurehuntcollection",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "identifierapi.getTreasureHuntByID" : {
+      "path" : "treasurehunt/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntById",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "string",
             "required" : true
           }
         },
@@ -325,6 +325,91 @@
   },
   "descriptor" : {
     "schemas" : {
+      "TreasureHunt" : {
+        "id" : "TreasureHunt",
+        "type" : "object",
+        "properties" : {
+          "uniqueId" : {
+            "type" : "string"
+          },
+          "key" : {
+            "$ref" : "Key"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "allClues" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Clue"
+            }
+          },
+          "thcompleted" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Clue" : {
+        "id" : "Clue",
+        "type" : "object",
+        "properties" : {
+          "instructions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "isFoundClue" : {
+            "type" : "boolean"
+          },
+          "coordinates" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        }
+      },
+      "TreasureHuntCollection" : {
+        "id" : "TreasureHuntCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "TreasureHunt"
+            }
+          }
+        }
+      },
       "Identifier" : {
         "id" : "Identifier",
         "type" : "object",
@@ -358,79 +443,6 @@
           }
         }
       },
-      "Key" : {
-        "id" : "Key",
-        "type" : "object",
-        "properties" : {
-          "kind" : {
-            "type" : "string"
-          },
-          "appId" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "parent" : {
-            "$ref" : "Key"
-          },
-          "namespace" : {
-            "type" : "string"
-          },
-          "complete" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "TreasureHunt" : {
-        "id" : "TreasureHunt",
-        "type" : "object",
-        "properties" : {
-          "uniqueId" : {
-            "type" : "string"
-          },
-          "key" : {
-            "$ref" : "Key"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "thcompleted" : {
-            "type" : "boolean"
-          },
-          "allClues" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Clue"
-            }
-          }
-        }
-      },
-      "Clue" : {
-        "id" : "Clue",
-        "type" : "object",
-        "properties" : {
-          "instructions" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "coordinates" : {
-            "type" : "array",
-            "items" : {
-              "type" : "number"
-            }
-          },
-          "isFoundClue" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "IdentifierCollection" : {
         "id" : "IdentifierCollection",
         "type" : "object",
@@ -442,25 +454,22 @@
             }
           }
         }
-      },
-      "TreasureHuntCollection" : {
-        "id" : "TreasureHuntCollection",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "TreasureHunt"
-            }
-          }
-        }
       }
     },
     "methods" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntsForId" : {
+        "response" : {
+          "$ref" : "TreasureHuntCollection"
+        }
+      },
       "com.cg.sjb_identifier.service.IdentifierAPI.setTHCompletedTHForUser" : {
         "response" : {
           "$ref" : "Identifier"
         }
+      },
+      "com.cg.sjb_identifier.service.IdentifierAPI.removeId" : {
+      },
+      "com.cg.sjb_identifier.service.IdentifierAPI.setClueCompletedForTHForUser" : {
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.getId" : {
         "response" : {
@@ -477,9 +486,9 @@
           "$ref" : "IdentifierCollection"
         }
       },
-      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.addClue" : {
         "response" : {
-          "$ref" : "TreasureHuntCollection"
+          "$ref" : "TreasureHunt"
         }
       },
       "com.cg.sjb_identifier.service.IdentifierAPI.setTreasureHuntsForId" : {
@@ -487,21 +496,12 @@
           "$ref" : "Identifier"
         }
       },
-      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntById" : {
-        "response" : {
-          "$ref" : "TreasureHunt"
-        }
-      },
-      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntsForId" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHunts" : {
         "response" : {
           "$ref" : "TreasureHuntCollection"
         }
       },
-      "com.cg.sjb_identifier.service.IdentifierAPI.removeId" : {
-      },
-      "com.cg.sjb_identifier.service.IdentifierAPI.setClueCompletedForTHForUser" : {
-      },
-      "com.cg.sjb_identifier.service.IdentifierAPI.addClue" : {
+      "com.cg.sjb_identifier.service.IdentifierAPI.getTreasureHuntById" : {
         "response" : {
           "$ref" : "TreasureHunt"
         }

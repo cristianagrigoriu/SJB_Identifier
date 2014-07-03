@@ -82,6 +82,8 @@ public class Identifier {
 	}
 	
 	public void setTreasureHuns(List<TreasureHunt> ths) {
+		if (this.treasureHunts == null)
+			this.treasureHunts = new ArrayList<TreasureHunt>();
 		this.treasureHunts = ths;
 	}
 	
@@ -118,6 +120,9 @@ public class Identifier {
 	}
 	
 	public boolean hasTreasureHunt(TreasureHunt th) {
+		//System.out.println(this.treasureHunts.size());
+		if (this.treasureHuntKeys == null)
+			System.out.println("null thKeys");
 		if (this.treasureHunts != null)
 			for (TreasureHunt t : this.treasureHunts)
 				if (th.getUniqueId().equals(t.getUniqueId()))
